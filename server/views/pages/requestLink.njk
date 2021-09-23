@@ -1,0 +1,34 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Home" %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Request link to access Prisoner Transactions</h1>
+        <p>We will email a secure link to your CJSM email account so you can sign in to Prisoner Transactions. The link will work for 1 hour.</p>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form id="email-form" action="/token" method="post">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              <h2 class="govuk-fieldset__heading">Enter you CJSM email address</h2>
+            </legend>
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="email">Email address</label>
+              <input id="email" name="email" class="govuk-input" type="text">
+            </div>
+            <div class="govuk-button-group">
+              <button class="govuk-button">Request Link</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}
