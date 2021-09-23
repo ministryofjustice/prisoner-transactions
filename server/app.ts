@@ -16,6 +16,7 @@ import setUpAuthentication from './middleware/setUpAuthentication'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
+import setUpRequestLink from './middleware/setUpRequestLink'
 
 export default function createApp(userService: UserService): express.Application {
   const app = express()
@@ -25,6 +26,7 @@ export default function createApp(userService: UserService): express.Application
   app.set('port', process.env.PORT || 3000)
 
   app.use(setUpHealthChecks())
+  app.use(setUpRequestLink())
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
