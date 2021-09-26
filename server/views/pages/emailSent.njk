@@ -1,0 +1,16 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - Home" %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Please check you inbox</h1>
+        <p>We have sent an email to {{ email }}. Please click on the link in the email to create new barcodes. </p>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}

@@ -17,8 +17,11 @@ export default function setUpRequestLink(prisonerTransactionService: PrisonerTra
     })
   )
   router.use(flash())
+  router.use(express.json())
+  router.use(express.urlencoded({ extended: true }))
 
   router.get('/request-link', (req, res) => requestLinksController.requestLink(req, res))
   router.post('/request-link', (req, res) => requestLinksController.submitLinkRequest(req, res))
+  router.get('/email-sent', (req, res) => requestLinksController.emailSent(req, res))
   return router
 }

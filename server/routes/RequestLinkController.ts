@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import trimForm from '../utils/trim'
 import requestLinkValidator from './RequestLinkValidator'
 import PrisonerTransactionsService from '../services/prisonerTransactionsService'
 import RequestLinkView from './RequestLinkView'
@@ -14,11 +13,15 @@ export default class RequestLinkController {
   }
 
   async submitLinkRequest(req: Request, res: Response): Promise<void> {
-    req.session.requestLinkForm = { ...trimForm(req.body) }
+    req.session.requestLinkForm = { ...req.body }
     res.redirect(
-      await requestLinkValidator(req.session.requestLinkForm, req, form => {
-        return this.prisonerTransactionsService.requestLink(form.email as string)
-      })
+      await requestLinkValidator(req.session.requestLinkForm, req, form =>
+        this.prisonerTransactionsService.requestLink(form.email as string)
+      )
     )
+  }
+
+  async emailSent(req: Request, res: Response): Promise<void> {
+    res.render('pages/emailSent')
   }
 }

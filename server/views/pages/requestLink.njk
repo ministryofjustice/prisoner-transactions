@@ -1,10 +1,22 @@
 {% extends "../partials/layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageTitle = applicationName + " - Home" %}
 
 {% block content %}
 
   <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">Request link to access Prisoner Transactions</h1>
@@ -13,19 +25,24 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form id="email-form" action="/token" method="post">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              <h2 class="govuk-fieldset__heading">Enter you CJSM email address</h2>
-            </legend>
-            <div class="govuk-form-group">
-              <label class="govuk-label" for="email">Email address</label>
-              <input id="email" name="email" class="govuk-input" type="text">
-            </div>
+        <form id="email-form" action="/request-link" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          {% call govukFieldset({ }) %}
+            {{ govukInput({
+              label: {
+                html: 'Enter your CJSM email address'
+              },
+              id: "email",
+              name: "email",
+              value: form.email,
+              errorMessage: errors | findError('email')
+            }) }}
             <div class="govuk-button-group">
-              <button class="govuk-button">Request Link</button>
+              {{ govukButton({
+                text: "Request Link"
+              }) }}
             </div>
-          </fieldset>
+          {% endcall %}
         </form>
       </div>
     </div>
