@@ -8,4 +8,6 @@ export default class RequestLinkPage extends Page {
   email = (): PageElement => cy.get('#email')
 
   requestButton = (): PageElement => cy.contains('Request Link')
+
+  errorSummary = (): PageElement => cy.get('.govuk-error-summary')
 }
