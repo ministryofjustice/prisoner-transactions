@@ -13,7 +13,6 @@ export default class PrisonerTransactionsService {
   }
 
   async requestLink(email: string): Promise<void> {
-    // TODO do we need a new token for every single request?
     const token = await this.hmppsAuthClient.getSystemClientToken()
     await PrisonerTransactionsService.restClient(token).post({
       path: `/link/email/${email}`,
