@@ -1,13 +1,25 @@
 import Page, { PageElement } from './page'
+import EmailSentPage from './emailSent'
 
 export default class RequestLinkPage extends Page {
   constructor() {
-    super('Request link to access Prisoner Transactions')
+    super('request-link')
   }
 
-  email = (): PageElement => cy.get('#email')
+  email = (text: string): RequestLinkPage => {
+    cy.get('#email').type(text)
+    return Page.verifyOnPage(RequestLinkPage)
+  }
 
-  requestButton = (): PageElement => cy.contains('Request Link')
+  clickRequestLinkAndSucceed = (): EmailSentPage => {
+    cy.get('[data-qa=request-link-button]').click()
+    return Page.verifyOnPage(EmailSentPage)
+  }
 
-  errorSummary = (): PageElement => cy.get('.govuk-error-summary')
+  clickRequestLinkAndFail = (): RequestLinkPage => {
+    cy.get('[data-qa=request-link-button]').click()
+    return Page.verifyOnPage(RequestLinkPage)
+  }
+
+  errorSummaryContains = (error: string): PageElement => cy.get('.govuk-error-summary').contains(error)
 }
