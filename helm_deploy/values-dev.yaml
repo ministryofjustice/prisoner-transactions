@@ -14,7 +14,7 @@ generic-service:
     PRISONER_TRANSACTIONS_API_URL: "https://prisoner-transactions-api-dev.hmpps.service.justice.gov.uk"
 
   # Switches off the allow list in the DEV env only.
-  allowlist: null
+  #  allowlist: null
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
