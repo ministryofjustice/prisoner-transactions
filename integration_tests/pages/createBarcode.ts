@@ -2,7 +2,7 @@ import Page, { PageElement } from './page'
 
 export default class CreateBarcodePage extends Page {
   constructor() {
-    super('Create a barcode for secure mail')
+    super('create-barcode')
   }
 
   prisoner = (): PageElement => cy.get('#prisoner')

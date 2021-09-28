@@ -28,6 +28,19 @@
 {% block bodyStart %}
 {% endblock %}
 
+{% block beforeContent %}
+    {{ govukPhaseBanner({
+      attributes: {
+        role: "complementary"
+      },
+      tag: {
+        text: "alpha"
+      },
+      html: 'This is a new service – your <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="'+ phaseBannerLink +'">feedback</a> will help us to improve it.'
+    }) }}
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+{% endblock %}
+
 {% block bodyEnd %}
   {# Run JavaScript at end of the
   <body>, to avoid blocking the initial render. #}

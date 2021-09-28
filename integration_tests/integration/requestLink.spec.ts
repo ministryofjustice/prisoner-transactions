@@ -1,6 +1,5 @@
 import RequestLinkPage from '../pages/requestLink'
 import Page from '../pages/page'
-import EmailSentPage from '../pages/emailSent'
 import { getRequests } from '../mockApis/wiremock'
 
 type WireMockRequest = { request: { url: string; method: string; body: string } }
@@ -11,37 +10,22 @@ context('Request Link Page', () => {
     cy.task('reset')
     cy.task('stubAuthToken')
     cy.task('stubRequestLink')
-  })
-
-  it('Can access request Link page without a login', () => {
     cy.visit('/request-link')
-    const requestLinkPage = Page.verifyOnPage(RequestLinkPage)
-    requestLinkPage.email().should('exist')
-    requestLinkPage.requestButton().should('exist')
   })
 
   it('should show email sent page for a valid email', () => {
-    cy.visit('/request-link')
-    const requestLinkPage = Page.verifyOnPage(RequestLinkPage)
-    requestLinkPage.email().type('amy.barnett@digital.justice.gov.uk')
-    requestLinkPage
-      .requestButton()
-      .click()
-      .then(requestLinkRequests)
-      .then(requests => {
-        expect(requests).to.have.lengthOf(1)
-        expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email/amy.barnett@digital.justice.gov.uk')
-        Page.verifyOnPage(EmailSentPage)
-      })
+    Page.verifyOnPage(RequestLinkPage).email('amy.barnett@digital.justice.gov.uk').clickRequestLinkButtonSuccess()
+    cy.then(requestLinkRequests).then(requests => {
+      expect(requests).to.have.lengthOf(1)
+      expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email/amy.barnett@digital.justice.gov.uk')
+    })
   })
 
   it('should show errors for an invalid email', () => {
-    cy.visit('/request-link')
-    const requestLinkPage = Page.verifyOnPage(RequestLinkPage)
-    requestLinkPage.email().type('invalid-email')
-    requestLinkPage.requestButton().click()
-    const requestLinkPageResult = Page.verifyOnPage(RequestLinkPage)
-    requestLinkPageResult.errorSummary().contains('Enter a valid email address')
+    Page.verifyOnPage(RequestLinkPage)
+      .email('invalid-email')
+      .clickRequestLinkButtonFail()
+      .errorSummaryContains('Enter a valid email address')
   })
 })
 
