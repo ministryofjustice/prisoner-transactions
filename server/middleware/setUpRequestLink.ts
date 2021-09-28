@@ -3,17 +3,19 @@ import session from 'express-session'
 import flash from 'connect-flash'
 import RequestLinkController from '../routes/RequestLinkController'
 import PrisonerTransactionsService from '../services/prisonerTransactionsService'
+import config from '../config'
 
 export default function setUpRequestLink(prisonerTransactionService: PrisonerTransactionsService): Router {
   const router = express.Router()
   const requestLinksController = new RequestLinkController(prisonerTransactionService)
+  // TODO This uses the same max session age and secret as for a logged in user. Consider separating these into different env vars.
   router.use(
     session({
-      cookie: { maxAge: 60000 },
+      cookie: { maxAge: config.session.expiryMinutes * 60000 },
       store: new session.MemoryStore(),
       saveUninitialized: true,
       resave: true,
-      secret: 'dfa9032knffvui340qla09453jutgbhsadf8qw34gdfow34t598e43',
+      secret: config.session.secret,
     })
   )
   router.use(flash())
