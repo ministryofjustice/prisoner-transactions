@@ -1,7 +1,7 @@
 import express, { Router } from 'express'
 import session from 'express-session'
 import flash from 'connect-flash'
-import RequestLinkController from '../routes/RequestLinkController'
+import RequestLinkController from '../routes/requestLink/RequestLinkController'
 import PrisonerTransactionsService from '../services/prisonerTransactionsService'
 import config from '../config'
 

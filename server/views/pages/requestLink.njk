@@ -5,6 +5,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageTitle = applicationName + " - Home" %}
+{% set pageId = 'request-link' %}
 
 {% block content %}
 
@@ -39,7 +40,8 @@
             }) }}
             <div class="govuk-button-group">
               {{ govukButton({
-                text: "Request Link"
+                text: "Request Link",
+                attributes: { 'data-qa': 'request-link-button' }
               }) }}
             </div>
           {% endcall %}
