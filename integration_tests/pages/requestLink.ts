@@ -11,12 +11,12 @@ export default class RequestLinkPage extends Page {
     return Page.verifyOnPage(RequestLinkPage)
   }
 
-  clickRequestLinkButtonSuccess = (): EmailSentPage => {
+  clickRequestLinkAndSucceed = (): EmailSentPage => {
     cy.get('[data-qa=request-link-button]').click()
     return Page.verifyOnPage(EmailSentPage)
   }
 
-  clickRequestLinkButtonFail = (): RequestLinkPage => {
+  clickRequestLinkAndFail = (): RequestLinkPage => {
     cy.get('[data-qa=request-link-button]').click()
     return Page.verifyOnPage(RequestLinkPage)
   }

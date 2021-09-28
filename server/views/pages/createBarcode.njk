@@ -13,20 +13,25 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form id="email-form" action="/token" method="post">
+        <form id="create-barcode" action="/create-barcode" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              <h2 class="govuk-fieldset__heading">Enter a prisoner number</h2>
-            </legend>
-            <div class="govuk-form-group">
-              <label class="govuk-label" for="email">Prisoner number</label>
-              <input id="prisoner" name="prisoner" class="govuk-input" type="text">
-            </div>
+          {% call govukFieldset({ }) %}
+            {{ govukInput({
+              label: {
+                html: 'Enter a prisoner number'
+              },
+              id: "prisoner",
+              name: "prisoner",
+              value: form.prisoner,
+              errorMessage: errors | findError('prisoner')
+            }) }}
             <div class="govuk-button-group">
-              <button class="govuk-button">Continue</button>
+              {{ govukButton({
+                text: "Continue",
+                attributes: { 'data-qa': 'continue-button' }
+              }) }}
             </div>
-          </fieldset>
+          {% endcall %}
         </form>
       </div>
     </div>

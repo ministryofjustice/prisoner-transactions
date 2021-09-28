@@ -14,7 +14,7 @@ context('Request Link Page', () => {
   })
 
   it('should show email sent page for a valid email', () => {
-    Page.verifyOnPage(RequestLinkPage).email('amy.barnett@digital.justice.gov.uk').clickRequestLinkButtonSuccess()
+    Page.verifyOnPage(RequestLinkPage).email('amy.barnett@digital.justice.gov.uk').clickRequestLinkAndSucceed()
     cy.then(requestLinkRequests).then(requests => {
       expect(requests).to.have.lengthOf(1)
       expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email/amy.barnett@digital.justice.gov.uk')
@@ -24,7 +24,7 @@ context('Request Link Page', () => {
   it('should show errors for an invalid email', () => {
     Page.verifyOnPage(RequestLinkPage)
       .email('invalid-email')
-      .clickRequestLinkButtonFail()
+      .clickRequestLinkAndFail()
       .errorSummaryContains('Enter a valid email address')
   })
 })

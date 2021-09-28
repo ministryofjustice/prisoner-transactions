@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import requestLinkValidator from './RequestLinkValidator'
-import PrisonerTransactionsService from '../services/prisonerTransactionsService'
+import PrisonerTransactionsService from '../../services/prisonerTransactionsService'
 import RequestLinkView from './RequestLinkView'
 
 export default class RequestLinkController {
