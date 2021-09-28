@@ -17,8 +17,12 @@ import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 import setUpRequestLink from './middleware/setUpRequestLink'
+import PrisonerTransactionsService from './services/prisonerTransactionsService'
 
-export default function createApp(userService: UserService): express.Application {
+export default function createApp(
+  userService: UserService,
+  prisonerTransactionService: PrisonerTransactionsService
+): express.Application {
   const app = express()
 
   app.set('json spaces', 2)
@@ -26,7 +30,7 @@ export default function createApp(userService: UserService): express.Application
   app.set('port', process.env.PORT || 3000)
 
   app.use(setUpHealthChecks())
-  app.use(setUpRequestLink())
+  app.use(setUpRequestLink(prisonerTransactionService))
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
