@@ -17,6 +17,8 @@ export default (on: (task: string, tasks: Record<string, unknown>) => void): voi
 
     stubTokenVerificationPing: tokenVerification.stubPing,
 
+    stubRequestLink: prisonerTransactionsService.stubRequestLink,
+
     stubCreateBarcode: prisonerTransactionsService.stubCreateBarcode,
     stubRequestLink: prisonerTransactionsService.stubRequestLink,
   })
