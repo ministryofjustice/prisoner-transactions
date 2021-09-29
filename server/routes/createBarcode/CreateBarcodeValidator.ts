@@ -17,7 +17,7 @@ export default async function validate(
     return '/create-barcode'
   }
 
-  const barcode = submitService(form)
+  const barcode = await submitService(form)
 
   return `/display-barcode?barcode=${barcode}`
 }

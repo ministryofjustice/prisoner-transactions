@@ -1,4 +1,5 @@
 import Page from './page'
+import DisplayBarcodePage from './displayBarcode'
 
 export default class CreateBarcodePage extends Page {
   constructor() {
@@ -10,8 +11,8 @@ export default class CreateBarcodePage extends Page {
     return Page.verifyOnPage(CreateBarcodePage)
   }
 
-  clickContinueButtonAndSucceed = (): CreateBarcodePage => {
+  clickContinueButtonAndSucceed = (): DisplayBarcodePage => {
     cy.get('[data-qa=continue-button]').click()
-    return Page.verifyOnPage(CreateBarcodePage)
+    return Page.verifyOnPage(DisplayBarcodePage)
   }
 }
