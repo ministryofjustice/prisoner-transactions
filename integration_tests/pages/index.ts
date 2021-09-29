@@ -1,4 +1,5 @@
 import Page, { PageElement } from './page'
+import CreateBarcodePage from './createBarcode'
 
 export default class IndexPage extends Page {
   constructor() {
@@ -7,5 +8,8 @@ export default class IndexPage extends Page {
 
   headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
 
-  createBarcodeLink = (): PageElement => cy.contains('Create a barcode')
+  clickCreateBarcodeLink = (): CreateBarcodePage => {
+    cy.get('a[href="/create-barcode"]').click()
+    return Page.verifyOnPage(CreateBarcodePage)
+  }
 }

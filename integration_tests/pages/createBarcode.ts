@@ -1,11 +1,18 @@
-import Page, { PageElement } from './page'
+import Page from './page'
+import DisplayBarcodePage from './displayBarcode'
 
 export default class CreateBarcodePage extends Page {
   constructor() {
     super('create-barcode')
   }
 
-  prisoner = (): PageElement => cy.get('#prisoner')
+  prisoner = (text: string): CreateBarcodePage => {
+    cy.get('#prisoner').type(text)
+    return Page.verifyOnPage(CreateBarcodePage)
+  }
 
-  continueButton = (): PageElement => cy.contains('Continue')
+  clickContinueButtonAndSucceed = (): DisplayBarcodePage => {
+    cy.get('[data-qa=continue-button]').click()
+    return Page.verifyOnPage(DisplayBarcodePage)
+  }
 }

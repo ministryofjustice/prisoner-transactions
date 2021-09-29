@@ -1,6 +1,5 @@
 import express from 'express'
 
-import path from 'path'
 import createError from 'http-errors'
 
 import indexRoutes from './routes'
@@ -35,11 +34,11 @@ export default function createApp(
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
-  nunjucksSetup(app, path)
+  nunjucksSetup(app)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
 
-  app.use('/', indexRoutes(standardRouter(userService)))
+  app.use('/', indexRoutes(standardRouter(userService), prisonerTransactionService))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

@@ -5,6 +5,9 @@ import config from '../config'
 export interface Context {
   username?: string
 }
+export interface CreateBarcodeResponse {
+  barcode: string
+}
 export default class PrisonerTransactionsService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
@@ -17,5 +20,13 @@ export default class PrisonerTransactionsService {
     await PrisonerTransactionsService.restClient(token).post({
       path: `/link/email/${email}`,
     })
+  }
+
+  async createBarcode(context: Context, prisoner: string): Promise<string> {
+    const token = await this.hmppsAuthClient.getSystemClientToken(context.username)
+    const response = (await PrisonerTransactionsService.restClient(token).post({
+      path: `/barcode/prisoner/${prisoner}`,
+    })) as CreateBarcodeResponse
+    return response.barcode
   }
 }

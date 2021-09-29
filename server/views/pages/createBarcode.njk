@@ -1,4 +1,8 @@
-{% extends "../partials/layout.njk" %}
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageTitle = applicationName + " - Home" %}
 {% set pageId = 'create-barcode' %}
@@ -6,6 +10,14 @@
 {% block content %}
 
   <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">Create a barcode for secure mail</h1>
@@ -13,20 +25,25 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form id="email-form" action="/token" method="post">
+        <form id="create-barcode-form" action="/create-barcode" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              <h2 class="govuk-fieldset__heading">Enter a prisoner number</h2>
-            </legend>
-            <div class="govuk-form-group">
-              <label class="govuk-label" for="email">Prisoner number</label>
-              <input id="prisoner" name="prisoner" class="govuk-input" type="text">
-            </div>
+          {% call govukFieldset({ }) %}
+            {{ govukInput({
+              label: {
+                html: 'Enter a prisoner number'
+              },
+              id: "prisoner",
+              name: "prisoner",
+              value: form.prisoner,
+              errorMessage: errors | findError('prisoner')
+            }) }}
             <div class="govuk-button-group">
-              <button class="govuk-button">Continue</button>
+              {{ govukButton({
+                text: "Continue",
+                attributes: { 'data-qa': 'continue-button' }
+              }) }}
             </div>
-          </fieldset>
+          {% endcall %}
         </form>
       </div>
     </div>

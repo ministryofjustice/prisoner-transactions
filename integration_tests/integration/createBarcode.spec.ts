@@ -1,13 +1,13 @@
 import IndexPage from '../pages/index'
 import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
-import CreateBarcodePage from '../pages/createBarcode'
 
 context('Create Barcode', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('stubCreateBarcode')
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -15,32 +15,13 @@ context('Create Barcode', () => {
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('Create barcode tile exists', () => {
+  it('Can create a barcode', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.createBarcodeLink().should('exist')
-  })
-
-  it('Can enter create barcode page', () => {
-    cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.createBarcodeLink().click()
-    Page.verifyOnPage(CreateBarcodePage)
-  })
-
-  it('Create barcode page has prisoner input', () => {
-    cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.createBarcodeLink().click()
-    const createBarcodePage = Page.verifyOnPage(CreateBarcodePage)
-    createBarcodePage.prisoner().should('exist')
-  })
-
-  it('Create barcode page has continue button', () => {
-    cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.createBarcodeLink().click()
-    const createBarcodePage = Page.verifyOnPage(CreateBarcodePage)
-    createBarcodePage.continueButton().should('exist')
+    indexPage
+      .clickCreateBarcodeLink()
+      .prisoner('A1234BC')
+      .clickContinueButtonAndSucceed()
+      .barcodeResultContains('12345678')
   })
 })
