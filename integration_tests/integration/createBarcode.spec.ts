@@ -15,7 +15,7 @@ context('Create Barcode', () => {
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it.only('Can create a barcode', () => {
+  it('Can create a barcode', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage
