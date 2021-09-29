@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import nunjucks from 'nunjucks'
+import nunjucks, { Environment } from 'nunjucks'
 import express from 'express'
-import * as pathModule from 'path'
+import path from 'path'
 
 type Error = {
   href: string
@@ -10,7 +10,7 @@ type Error = {
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): void {
+export default function nunjucksSetup(app: express.Express): void {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
@@ -28,6 +28,10 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     })
   }
 
+  registerNunjucks(app)
+}
+
+export function registerNunjucks(app?: express.Express): Environment {
   const njkEnv = nunjucks.configure(
     [
       path.join(__dirname, '../../server/views'),
@@ -52,7 +56,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   })
 
   njkEnv.addFilter('findError', (array: Error[], formFieldId: string) => {
-    const item = array.find(error => error.href === `#${formFieldId}`)
+    const item = array?.find(error => error.href === `#${formFieldId}`)
     if (item) {
       return {
         text: item.text,
@@ -60,4 +64,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     }
     return null
   })
+
+  return njkEnv
 }

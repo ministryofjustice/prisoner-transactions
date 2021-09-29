@@ -2,8 +2,9 @@ import type { RequestHandler, Router } from 'express'
 
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import setUpCreateBarcode from '../middleware/setUpCreateBarcode'
+import PrisonerTransactionsService from '../services/prisonerTransactionsService'
 
-export default function routes(router: Router): Router {
+export default function routes(router: Router, prisonerTransactionsService: PrisonerTransactionsService): Router {
   const get = (path: string, handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   get('/', (req, res) => {
@@ -21,6 +22,6 @@ export default function routes(router: Router): Router {
     })
   })
 
-  setUpCreateBarcode(router)
+  setUpCreateBarcode(router, prisonerTransactionsService)
   return router
 }

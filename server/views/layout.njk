@@ -22,7 +22,7 @@
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+  {% include "partials/header.njk" %}
 {% endblock %}
 
 {% block bodyStart %}
@@ -42,9 +42,10 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the
-  <body>, to avoid blocking the initial render. #}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="/assets/govuk/all.js"></script>
-  <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
+  <script src="/assets/govukFrontendInit.js"></script>
+  <script src="/assets/mojFrontendInit.js"></script>
+  {% block pageScripts %}{% endblock %}
 {% endblock %}

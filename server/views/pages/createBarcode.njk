@@ -1,4 +1,8 @@
-{% extends "../partials/layout.njk" %}
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageTitle = applicationName + " - Home" %}
 {% set pageId = 'create-barcode' %}
@@ -6,6 +10,14 @@
 {% block content %}
 
   <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">Create a barcode for secure mail</h1>
@@ -13,7 +25,7 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form id="create-barcode" action="/create-barcode" method="post">
+        <form id="create-barcode-form" action="/create-barcode" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           {% call govukFieldset({ }) %}
             {{ govukInput({

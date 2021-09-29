@@ -1,4 +1,4 @@
-import { RequestLinkForm } from '../forms'
+import { CreateBarcodeForm, RequestLinkForm } from 'forms'
 
 export default {}
 
@@ -8,6 +8,7 @@ declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     requestLinkForm: RequestLinkForm
+    createBarcodeForm: CreateBarcodeForm
   }
 }
 
