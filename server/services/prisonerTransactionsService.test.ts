@@ -25,7 +25,7 @@ describe('Prisoner Transactions Service', () => {
       prisonerTransactionsService = new PrisonerTransactionsService(hmppsAuthClient)
     })
     it('should get a system token from the auth client', async () => {
-      fakePrisonerTransactions.post('/link/email/a.b@c.com').reply(200)
+      fakePrisonerTransactions.post('/link/email', { email: 'a.b@c.com' }).reply(200)
 
       await prisonerTransactionsService.requestLink('a.b@c.com')
 
