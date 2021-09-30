@@ -56,5 +56,5 @@ function appSetup(route: Router, production: boolean): Express {
 
 export default function appWithAllRoutes({ production = false }: { production?: boolean }): Express {
   auth.default.authenticationMiddleware = () => (req, res, next) => next()
-  return appSetup(allRoutes(standardRouter(new MockUserService()), new MockPrisonerTransactionsService()), production)
+  return appSetup(allRoutes(standardRouter(new MockUserService())), production)
 }

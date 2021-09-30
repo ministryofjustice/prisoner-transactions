@@ -17,10 +17,11 @@ import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 import setUpRequestLink from './middleware/setUpRequestLink'
 import PrisonerTransactionsService from './services/prisonerTransactionsService'
+import setUpCreateBarcode from './middleware/setUpCreateBarcode'
 
 export default function createApp(
   userService: UserService,
-  prisonerTransactionService: PrisonerTransactionsService
+  prisonerTransactionsService: PrisonerTransactionsService
 ): express.Application {
   const app = express()
 
@@ -29,7 +30,8 @@ export default function createApp(
   app.set('port', process.env.PORT || 3000)
 
   app.use(setUpHealthChecks())
-  app.use(setUpRequestLink(prisonerTransactionService))
+  app.use(setUpRequestLink(prisonerTransactionsService))
+  app.use(setUpCreateBarcode(prisonerTransactionsService))
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
@@ -38,7 +40,7 @@ export default function createApp(
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
 
-  app.use('/', indexRoutes(standardRouter(userService), prisonerTransactionService))
+  app.use('/', indexRoutes(standardRouter(userService)))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

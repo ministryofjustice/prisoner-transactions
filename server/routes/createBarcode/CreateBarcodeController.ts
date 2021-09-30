@@ -12,6 +12,13 @@ function context(res: Response): Context {
 export default class CreateBarcodeController {
   constructor(private readonly prisonerTransactionsService: PrisonerTransactionsService) {}
 
+  async verifyLink(req: Request, res: Response): Promise<void> {
+    const secret = req.query.secret as string
+    const token = await this.prisonerTransactionsService.verifyLink(secret)
+    req.session.token = token
+    res.redirect('/create-barcode')
+  }
+
   async createBarcode(req: Request, res: Response): Promise<void> {
     const view = new CreateBarcodeView(req.session?.createBarcodeForm || {}, req.flash('errors'))
     res.render('pages/createBarcode', view.renderArgs)
@@ -21,7 +28,7 @@ export default class CreateBarcodeController {
     req.session.createBarcodeForm = { ...req.body }
     res.redirect(
       await createBarcodeValidator(req.session.createBarcodeForm, req, form => {
-        return this.prisonerTransactionsService.createBarcode(context(res), form.prisoner as string)
+        return this.prisonerTransactionsService.createBarcode(context(res), form.prisoner as string, req.session.token)
       })
     )
   }
