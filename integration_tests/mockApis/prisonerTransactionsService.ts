@@ -5,7 +5,8 @@ const stubRequestLink = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
-      urlPattern: '/prisoner-transactions/link/email/.*',
+      urlPattern: '/prisoner-transactions/link/email',
+      bodyPatterns: [{ equalToJson: { email: 'amy.barnett@digital.justice.gov.uk' } }],
     },
     response: {
       status: 200,

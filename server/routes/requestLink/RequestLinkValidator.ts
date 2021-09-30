@@ -19,7 +19,12 @@ export default async function validate(
     return '/request-link'
   }
 
-  submitService(form)
+  try {
+    await submitService(form)
+  } catch (error) {
+    req.flash('errors', [{ href: '', text: 'An error occurred sending the email - please try again' }])
+    return '/request-link'
+  }
 
   return '/email-sent'
 }

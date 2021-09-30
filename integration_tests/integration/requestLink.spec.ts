@@ -17,7 +17,7 @@ context('Request Link Page', () => {
     Page.verifyOnPage(RequestLinkPage).email('amy.barnett@digital.justice.gov.uk').clickRequestLinkAndSucceed()
     cy.then(requestLinkRequests).then(requests => {
       expect(requests).to.have.lengthOf(1)
-      expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email/amy.barnett@digital.justice.gov.uk')
+      expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email')
     })
   })
 
@@ -33,6 +33,6 @@ const getRequestsFor = (filter: (request: WireMockRequest) => boolean) =>
   getRequests().then((response: { body: AllWireMockRequest }) => response.body.requests.filter(filter))
 
 const isRequestLinkRequest = (request: WireMockRequest) =>
-  request.request.url.match('/prisoner-transactions/link/email/.*') && request.request.method === 'POST'
+  request.request.url.match('/prisoner-transactions/link/email') && request.request.method === 'POST'
 
 const requestLinkRequests = () => getRequestsFor(isRequestLinkRequest)
