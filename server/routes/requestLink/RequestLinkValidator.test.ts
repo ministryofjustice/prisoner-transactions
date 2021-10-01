@@ -57,4 +57,19 @@ describe('RequestLinkValidadtor', () => {
       expect(req.flash).toHaveBeenCalledWith('errors', [{ href: '#email', text: 'Enter a valid email address' }])
     })
   })
+
+  describe('API call error', () => {
+    beforeEach(() => {
+      submitService = jest.fn().mockImplementation(() => {
+        throw new Error()
+      })
+    })
+    it('should display an error if the call to the API fails', async () => {
+      const form = { ...validForm }
+      await validate(form, req, submitService)
+      expect(req.flash).toHaveBeenCalledWith('errors', [
+        { href: '', text: 'An error occurred sending the email - please try again' },
+      ])
+    })
+  })
 })
