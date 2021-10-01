@@ -14,10 +14,10 @@ export default async function validate(
 
   if (errors.length > 0) {
     req.flash('errors', errors)
-    return '/create-barcode'
+    return '/barcode/create-barcode'
   }
 
   const barcode = await submitService(form)
 
-  return `/display-barcode?barcode=${barcode}`
+  return `/barcode/display-barcode?barcode=${barcode}`
 }

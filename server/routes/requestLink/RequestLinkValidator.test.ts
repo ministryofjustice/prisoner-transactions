@@ -21,7 +21,7 @@ describe('RequestLinkValidadtor', () => {
     it('should return email sent as next page when valid', async () => {
       const form = { ...validForm }
       const nextPage = await validate(form, req, submitService)
-      expect(nextPage).toEqual('/email-sent')
+      expect(nextPage).toEqual('/link/email-sent')
     })
     it('should call the submit service when valid', async () => {
       const form = { ...validForm }
@@ -39,7 +39,7 @@ describe('RequestLinkValidadtor', () => {
     it('should return request link as next page when invalid', async () => {
       const form = {}
       const nextPage = await validate(form, req, submitService)
-      expect(nextPage).toEqual('/request-link')
+      expect(nextPage).toEqual('/link/request-link')
     })
     it('should not call submit service when invalid', async () => {
       const form = {}
@@ -55,6 +55,21 @@ describe('RequestLinkValidadtor', () => {
       const form = { email: 'invalid-email' }
       await validate(form, req, submitService)
       expect(req.flash).toHaveBeenCalledWith('errors', [{ href: '#email', text: 'Enter a valid email address' }])
+    })
+  })
+
+  describe('API call error', () => {
+    beforeEach(() => {
+      submitService = jest.fn().mockImplementation(() => {
+        throw new Error()
+      })
+    })
+    it('should display an error if the call to the API fails', async () => {
+      const form = { ...validForm }
+      await validate(form, req, submitService)
+      expect(req.flash).toHaveBeenCalledWith('errors', [
+        { href: '', text: 'An error occurred sending the email - please try again' },
+      ])
     })
   })
 })

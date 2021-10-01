@@ -9,6 +9,7 @@ declare module 'express-session' {
     nowInMinutes: number
     requestLinkForm: RequestLinkForm
     createBarcodeForm: CreateBarcodeForm
+    linkToken: string
   }
 }
 

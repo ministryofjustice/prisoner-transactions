@@ -16,11 +16,29 @@ const stubRequestLink = (): SuperAgentRequest =>
     },
   })
 
+const stubVerifyLink = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: '/prisoner-transactions/link/verify',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      jsonBody: {
+        token: 'some-token',
+      },
+    },
+  })
+
 const stubCreateBarcode = (): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'POST',
       urlPattern: '/prisoner-transactions/barcode/prisoner/.*',
+      headers: { Authorization: { equalTo: 'Bearer some-token' } },
     },
     response: {
       status: 200,
@@ -36,4 +54,5 @@ const stubCreateBarcode = (): SuperAgentRequest =>
 export default {
   stubRequestLink,
   stubCreateBarcode,
+  stubVerifyLink,
 }

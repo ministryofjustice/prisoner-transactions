@@ -1,6 +1,7 @@
 import express from 'express'
 
 import createError from 'http-errors'
+import cookieParser from 'cookie-parser'
 
 import indexRoutes from './routes'
 import nunjucksSetup from './utils/nunjucksSetup'
@@ -17,10 +18,12 @@ import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 import setUpRequestLink from './middleware/setUpRequestLink'
 import PrisonerTransactionsService from './services/prisonerTransactionsService'
+import setUpCreateBarcode from './middleware/setUpCreateBarcode'
+import barcodeAuthorisationMiddleware from './middleware/barcodeAuthorisationMiddleware'
 
 export default function createApp(
   userService: UserService,
-  prisonerTransactionService: PrisonerTransactionsService
+  prisonerTransactionsService: PrisonerTransactionsService
 ): express.Application {
   const app = express()
 
@@ -29,16 +32,22 @@ export default function createApp(
   app.set('port', process.env.PORT || 3000)
 
   app.use(setUpHealthChecks())
-  app.use(setUpRequestLink(prisonerTransactionService))
+
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
   nunjucksSetup(app)
-  app.use(setUpAuthentication())
-  app.use(authorisationMiddleware())
 
-  app.use('/', indexRoutes(standardRouter(userService), prisonerTransactionService))
+  app.use('/link', setUpRequestLink(prisonerTransactionsService))
+
+  app.use('/barcode', cookieParser())
+  app.use('/barcode', barcodeAuthorisationMiddleware())
+  app.use('/barcode', setUpCreateBarcode(prisonerTransactionsService))
+
+  app.use('/', setUpAuthentication())
+  app.use('/', authorisationMiddleware())
+  app.use('/', indexRoutes(standardRouter(userService)))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

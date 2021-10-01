@@ -22,6 +22,7 @@ export default function setUpRequestLink(prisonerTransactionService: PrisonerTra
   router.use(express.json())
   router.use(express.urlencoded({ extended: true }))
 
+  router.get('/verify-link', (req, res) => requestLinksController.verifyLink(req, res))
   router.get('/request-link', (req, res) => requestLinksController.requestLink(req, res))
   router.post('/request-link', (req, res) => requestLinksController.submitLinkRequest(req, res))
   router.get('/email-sent', (req, res) => requestLinksController.emailSent(req, res))

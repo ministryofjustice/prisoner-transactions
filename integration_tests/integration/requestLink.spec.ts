@@ -10,7 +10,7 @@ context('Request Link Page', () => {
     cy.task('reset')
     cy.task('stubAuthToken')
     cy.task('stubRequestLink')
-    cy.visit('/request-link')
+    cy.visit('/link/request-link')
   })
 
   it('should show email sent page for a valid email', () => {

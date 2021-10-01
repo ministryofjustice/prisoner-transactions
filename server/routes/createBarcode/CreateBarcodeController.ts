@@ -21,7 +21,11 @@ export default class CreateBarcodeController {
     req.session.createBarcodeForm = { ...req.body }
     res.redirect(
       await createBarcodeValidator(req.session.createBarcodeForm, req, form => {
-        return this.prisonerTransactionsService.createBarcode(context(res), form.prisoner as string)
+        return this.prisonerTransactionsService.createBarcode(
+          context(res),
+          form.prisoner as string,
+          req.session.linkToken
+        )
       })
     )
   }

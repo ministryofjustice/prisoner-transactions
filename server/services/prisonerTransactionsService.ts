@@ -10,6 +10,10 @@ export interface CreateBarcodeResponse {
   barcode: string
 }
 
+export interface VerifyLinkResponse {
+  token: string
+}
+
 export default class PrisonerTransactionsService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
@@ -25,8 +29,17 @@ export default class PrisonerTransactionsService {
     })
   }
 
-  async createBarcode(context: Context, prisoner: string): Promise<string> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(context.username)
+  async verifyLink(secret: string): Promise<string> {
+    const token = await this.hmppsAuthClient.getSystemClientToken()
+    const response = (await PrisonerTransactionsService.restClient(token).post({
+      path: `/link/verify`,
+      data: { secret },
+    })) as VerifyLinkResponse
+    return response.token
+  }
+
+  async createBarcode(context: Context, prisoner: string, token: string): Promise<string> {
+    // const token = await this.hmppsAuthClient.getSystemClientToken(context.username)
     const response = (await PrisonerTransactionsService.restClient(token).post({
       path: `/barcode/prisoner/${prisoner}`,
     })) as CreateBarcodeResponse

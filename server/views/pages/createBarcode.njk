@@ -25,7 +25,7 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form id="create-barcode-form" action="/create-barcode" method="post">
+        <form id="create-barcode-form" action="/barcode/create-barcode" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           {% call govukFieldset({ }) %}
             {{ govukInput({
