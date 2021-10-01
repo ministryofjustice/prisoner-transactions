@@ -21,7 +21,7 @@ describe('RequestLinkValidadtor', () => {
     it('should return email sent as next page when valid', async () => {
       const form = { ...validForm }
       const nextPage = await validate(form, req, submitService)
-      expect(nextPage).toEqual('/email-sent')
+      expect(nextPage).toEqual('/link/email-sent')
     })
     it('should call the submit service when valid', async () => {
       const form = { ...validForm }
@@ -39,7 +39,7 @@ describe('RequestLinkValidadtor', () => {
     it('should return request link as next page when invalid', async () => {
       const form = {}
       const nextPage = await validate(form, req, submitService)
-      expect(nextPage).toEqual('/request-link')
+      expect(nextPage).toEqual('/link/request-link')
     })
     it('should not call submit service when invalid', async () => {
       const form = {}

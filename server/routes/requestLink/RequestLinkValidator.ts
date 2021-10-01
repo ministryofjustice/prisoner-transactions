@@ -16,17 +16,17 @@ export default async function validate(
 
   if (errors.length > 0) {
     req.flash('errors', errors)
-    return '/request-link'
+    return '/link/request-link'
   }
 
   try {
     await submitService(form)
   } catch (error) {
     req.flash('errors', [{ href: '', text: 'An error occurred sending the email - please try again' }])
-    return '/request-link'
+    return '/link/request-link'
   }
 
-  return '/email-sent'
+  return '/link/email-sent'
 }
 
 function validateEmail(email: string) {

@@ -24,4 +24,10 @@ export default class RequestLinkController {
   async emailSent(req: Request, res: Response): Promise<void> {
     res.render('pages/emailSent')
   }
+
+  async verifyLink(req: Request, res: Response): Promise<void> {
+    const secret = req.query.secret as string
+    const token = await this.prisonerTransactionsService.verifyLink(secret)
+    res.cookie('link_token', token).redirect('/barcode/create-barcode')
+  }
 }

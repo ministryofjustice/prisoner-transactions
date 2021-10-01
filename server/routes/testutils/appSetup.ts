@@ -8,7 +8,6 @@ import errorHandler from '../../errorHandler'
 import standardRouter from '../standardRouter'
 import * as auth from '../../authentication/auth'
 import UserService from '../../services/userService'
-import MockPrisonerTransactionsService from './MockPrisonerTransactionsService'
 
 const user = {
   name: 'john smith',

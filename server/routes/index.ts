@@ -9,11 +9,11 @@ export default function routes(router: Router): Router {
     res.render('pages/index', {
       tiles: [
         {
-          id: 'create-barcode',
-          heading: 'Create a barcode',
-          description: 'Create a barcode for a secure item of mail',
-          href: '/create-barcode',
-          roles: [],
+          id: 'scan-barcode',
+          heading: 'Scan a barcode',
+          description: 'Scan a barcode for a secure item of mail',
+          href: '/scan-barcode',
+          roles: ['ROLE_SCAN_RULE39_BARCODE'],
           enabled: true,
         },
       ],
