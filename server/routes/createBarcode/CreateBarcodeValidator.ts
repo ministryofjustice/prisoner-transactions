@@ -17,7 +17,17 @@ export default async function validate(
     return '/barcode/create-barcode'
   }
 
-  const barcode = await submitService(form)
+  let barcode
+  try {
+    barcode = await submitService(form)
+  } catch (error) {
+    if (error.status === 401) {
+      req.flash('errors', [{ href: '', text: 'Your session has expired - please request a new link' }])
+      return '/link/request-link'
+    }
+    req.flash('errors', [{ href: '', text: 'An unexpected error occurred: $error' }])
+    return '/barcode/create-barcode'
+  }
 
   return `/barcode/display-barcode?barcode=${barcode}`
 }

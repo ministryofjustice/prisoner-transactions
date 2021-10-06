@@ -23,6 +23,13 @@ interface PostRequest {
   raw?: boolean
 }
 
+interface PostCreateBarcodeRequest {
+  path?: string
+  responseType?: string
+  data?: Record<string, unknown>
+  raw?: boolean
+}
+
 interface StreamRequest {
   path?: string
   headers?: Record<string, string>
@@ -87,6 +94,34 @@ export default class RestClient {
         })
         .auth(this.token, { type: 'bearer' })
         .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'POST'`)
+      throw sanitisedError
+    }
+  }
+
+  async postCreateBarcode({
+    path = null,
+    responseType = '',
+    data = {},
+    raw = false,
+  }: PostCreateBarcodeRequest = {}): Promise<unknown> {
+    logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
+    try {
+      const result = await superagent
+        .post(`${this.apiUrl()}${path}`)
+        .send(data)
+        .agent(this.agent)
+        .retry(2, (err, res) => {
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .set('CREATE_BARCODE_TOKEN', this.token)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 

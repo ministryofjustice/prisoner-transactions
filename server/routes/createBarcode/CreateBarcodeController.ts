@@ -24,7 +24,7 @@ export default class CreateBarcodeController {
         return this.prisonerTransactionsService.createBarcode(
           context(res),
           form.prisoner as string,
-          req.session.linkToken
+          req.session.createBarcodeToken
         )
       })
     )
