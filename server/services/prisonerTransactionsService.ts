@@ -38,9 +38,8 @@ export default class PrisonerTransactionsService {
     return response.token
   }
 
-  async createBarcode(context: Context, prisoner: string, token: string): Promise<string> {
-    // const token = await this.hmppsAuthClient.getSystemClientToken(context.username)
-    const response = (await PrisonerTransactionsService.restClient(token).post({
+  async createBarcode(context: Context, prisoner: string, createBarcodeToken: string): Promise<string> {
+    const response = (await PrisonerTransactionsService.restClient(createBarcodeToken).postCreateBarcode({
       path: `/barcode/prisoner/${prisoner}`,
     })) as CreateBarcodeResponse
     return response.barcode

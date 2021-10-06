@@ -38,7 +38,7 @@ const stubCreateBarcode = (): SuperAgentRequest =>
     request: {
       method: 'POST',
       urlPattern: '/prisoner-transactions/barcode/prisoner/.*',
-      headers: { Authorization: { equalTo: 'Bearer some-token' } },
+      headers: { CREATE_BARCODE_TOKEN: { equalTo: 'some-token' } },
     },
     response: {
       status: 200,

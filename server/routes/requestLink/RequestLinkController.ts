@@ -28,6 +28,6 @@ export default class RequestLinkController {
   async verifyLink(req: Request, res: Response): Promise<void> {
     const secret = req.query.secret as string
     const token = await this.prisonerTransactionsService.verifyLink(secret)
-    res.cookie('link_token', token).redirect('/barcode/create-barcode')
+    res.cookie('create_barcode_token', token).redirect('/barcode/create-barcode')
   }
 }
