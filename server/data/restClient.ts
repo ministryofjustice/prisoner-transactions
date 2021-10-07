@@ -121,7 +121,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .set('CREATE_BARCODE_TOKEN', this.token)
+        .set('Create-Barcode-Token', this.token)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 
