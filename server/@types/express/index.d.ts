@@ -10,7 +10,7 @@ declare module 'express-session' {
     requestLinkForm: RequestLinkForm
     createBarcodeForm: CreateBarcodeForm
     createBarcodeToken: string
-    email: string
+    barcodeUserEmail: string
   }
 }
 
