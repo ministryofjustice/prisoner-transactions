@@ -75,8 +75,8 @@ export default {
     prisonerTransactions: {
       url: get('PRISONER_TRANSACTIONS_API_URL', 'http://localhost:8101', requiredInProduction) as string,
       timeout: {
-        response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
+        response: Number(get('PRISONER_TRANSACTIONS_API_TIMEOUT_RESPONSE', 30000)),
+        deadline: Number(get('PRISONER_TRANSACTIONS_APITIMEOUT_DEADLINE', 30000)),
       },
       agent: new AgentConfig(),
     },
