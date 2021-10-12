@@ -6,7 +6,9 @@ const stubRequestLink = (): SuperAgentRequest =>
     request: {
       method: 'POST',
       urlPattern: '/prisoner-transactions/link/email',
-      bodyPatterns: [{ equalToJson: { email: 'amy.barnett@digital.justice.gov.uk' } }],
+      bodyPatterns: [
+        { matchesJsonPath: "$[?(@.email == 'amy.barnett@digital.justice.gov.uk' && @.sessionID =~ /.*/i)]" },
+      ],
     },
     response: {
       status: 200,
