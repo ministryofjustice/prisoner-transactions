@@ -9,7 +9,7 @@ export default class RequestLinkController {
   async requestLink(req: Request, res: Response): Promise<void> {
     const view = new RequestLinkView(req.session?.requestLinkForm || {}, req.flash('errors'))
 
-    res.render('pages/requestLink', view.renderArgs)
+    res.clearCookie('create_barcode_token').render('pages/requestLink', view.renderArgs)
   }
 
   async submitLinkRequest(req: Request, res: Response): Promise<void> {

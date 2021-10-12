@@ -22,5 +22,16 @@
         </div>
       </div>
     {% endif %}
+
+    {% if barcodeUser %}
+      <div id="user-block" class="govuk-!-padding-top-1 govuk-!-padding-bottom-1">
+        <div id="header-user-name" data-qa="header-user-name">
+          {{ barcodeUser.email }}
+        </div>
+        <div class="govuk-!-padding-right-0">
+          <a data-qa="requestLink" href="/link/request-link">Sign out</a>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </header>

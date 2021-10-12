@@ -4,6 +4,7 @@ import flash from 'connect-flash'
 import CreateBarcodeController from '../routes/createBarcode/CreateBarcodeController'
 import PrisonerTransactionsService from '../services/prisonerTransactionsService'
 import config from '../config'
+import populateBarcodeUser from './populateBarcodeUser'
 
 export default function setUpCreateBarcode(prisonerTransactionService: PrisonerTransactionsService): Router {
   const router = express.Router()
@@ -21,6 +22,7 @@ export default function setUpCreateBarcode(prisonerTransactionService: PrisonerT
   router.use(flash())
   router.use(express.json())
   router.use(express.urlencoded({ extended: true }))
+  router.use(populateBarcodeUser())
 
   router.get('/create-barcode', (req, res) => createBarcodeController.createBarcode(req, res))
   router.post('/create-barcode', (req, res) => createBarcodeController.submitCreateBarcode(req, res))
