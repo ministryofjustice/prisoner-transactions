@@ -13,7 +13,6 @@ generic-service:
     enabled: true
     host: app-hostname.local    # override per environment
     tlsSecretName: prisoner-transactions-cert
-    path: /
 
   livenessProbe:
     httpGet:
