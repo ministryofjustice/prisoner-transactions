@@ -21,19 +21,19 @@ export default class PrisonerTransactionsService {
     return new RestClient('Prisoner Transactions API Client', config.apis.prisonerTransactions, token)
   }
 
-  async requestLink(email: string): Promise<void> {
+  async requestLink(email: string, sessionID: string): Promise<void> {
     const token = await this.hmppsAuthClient.getSystemClientToken()
     await PrisonerTransactionsService.restClient(token).post({
       path: `/link/email`,
-      data: { email },
+      data: { email, sessionID },
     })
   }
 
-  async verifyLink(secret: string): Promise<string> {
+  async verifyLink(secret: string, sessionID: string): Promise<string> {
     const token = await this.hmppsAuthClient.getSystemClientToken()
     const response = (await PrisonerTransactionsService.restClient(token).post({
       path: `/link/verify`,
-      data: { secret },
+      data: { secret, sessionID },
     })) as VerifyLinkResponse
     return response.token
   }
