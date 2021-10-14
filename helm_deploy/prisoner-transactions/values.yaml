@@ -42,9 +42,9 @@ generic-service:
       SYSTEM_CLIENT_SECRET: "SYSTEM_CLIENT_SECRET"
       SESSION_SECRET: "SESSION_SECRET"
       BARCODE_TOKEN_PUBLIC_KEY: "BARCODE_TOKEN_PUBLIC_KEY"
-    elasticache-redis:
-      REDIS_HOST: "primary_endpoint_address"
-      REDIS_AUTH_TOKEN: "auth_token"
+    pta-elasticache-redis:
+      SPRING_REDIS_HOST: "primary_endpoint_address"
+      SPRING_REDIS_PASSWORD: "auth_token"
 
   allowlist:
     office: "217.33.148.210/32"
