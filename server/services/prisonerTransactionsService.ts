@@ -29,11 +29,11 @@ export default class PrisonerTransactionsService {
     })
   }
 
-  async verifyLink(secret: string, sessionID: string): Promise<string> {
+  async verifyLink(secret: string, sessionID: string, email: string): Promise<string> {
     const token = await this.hmppsAuthClient.getSystemClientToken()
     const response = (await PrisonerTransactionsService.restClient(token).post({
       path: `/link/verify`,
-      data: { secret, sessionID },
+      data: { email, secret, sessionID },
     })) as VerifyLinkResponse
     return response.token
   }

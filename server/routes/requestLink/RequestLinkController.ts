@@ -14,6 +14,7 @@ export default class RequestLinkController {
 
   async submitLinkRequest(req: Request, res: Response): Promise<void> {
     req.session.requestLinkForm = { ...req.body }
+    req.session.barcodeUserEmail = req.session.requestLinkForm.email
     res.redirect(
       await requestLinkValidator(req.session.requestLinkForm, req, form =>
         this.prisonerTransactionsService.requestLink(form.email as string, req.sessionID)
@@ -27,8 +28,9 @@ export default class RequestLinkController {
 
   async verifyLink(req: Request, res: Response): Promise<void> {
     const secret = req.query.secret as string
+    const email = req.session.barcodeUserEmail
     try {
-      const token = await this.prisonerTransactionsService.verifyLink(secret, req.sessionID)
+      const token = await this.prisonerTransactionsService.verifyLink(secret, req.sessionID, email)
       res.cookie('create_barcode_token', token).redirect('/barcode/create-barcode')
     } catch (error) {
       req.flash('errors', [{ href: '', text: 'An error occurred verifying your email - please try again' }])
