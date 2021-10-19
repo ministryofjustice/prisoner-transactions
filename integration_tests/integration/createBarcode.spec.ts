@@ -20,7 +20,7 @@ context('Create Barcode', () => {
   it('Can create a barcode after redirecting to a magic link signin', () => {
     cy.visit('/barcode/create-barcode')
     const requestLinkPage = Page.verifyOnPage(RequestLinkPage)
-    requestLinkPage.email('amy.barnett@digital.justice.gov.uk').clickRequestLinkAndSucceed()
+    requestLinkPage.email('mike.halma@digital.justice.gov.uk').clickRequestLinkAndSucceed()
     cy.visit('/link/verify-link?secret=thisisasecret')
     const createBarcodePage = Page.verifyOnPage(CreateBarcodePage)
     createBarcodePage.prisoner('A1234BC').clickContinueButtonAndSucceed().barcodeResultContains('12345678')

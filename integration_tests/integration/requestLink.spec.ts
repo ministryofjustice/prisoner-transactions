@@ -14,7 +14,7 @@ context('Request Link Page', () => {
   })
 
   it('should show email sent page for a valid email', () => {
-    Page.verifyOnPage(RequestLinkPage).email('amy.barnett@digital.justice.gov.uk').clickRequestLinkAndSucceed()
+    Page.verifyOnPage(RequestLinkPage).email('mike.halma@digital.justice.gov.uk').clickRequestLinkAndSucceed()
     cy.then(requestLinkRequests).then(requests => {
       expect(requests).to.have.lengthOf(1)
       expect(requests[0].request.url).to.equal('/prisoner-transactions/link/email')
