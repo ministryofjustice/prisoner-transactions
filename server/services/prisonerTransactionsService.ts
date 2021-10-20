@@ -38,9 +38,15 @@ export default class PrisonerTransactionsService {
     return response.token
   }
 
-  async createBarcode(context: Context, prisoner: string, createBarcodeToken: string): Promise<string> {
+  async createBarcode(
+    context: Context,
+    prisonerId: string,
+    userId: string,
+    createBarcodeToken: string
+  ): Promise<string> {
     const response = (await PrisonerTransactionsService.restClient(createBarcodeToken).postCreateBarcode({
-      path: `/barcode/prisoner/${prisoner}`,
+      path: `/barcode`,
+      data: { userId, prisonerId },
     })) as CreateBarcodeResponse
     return response.barcode
   }
