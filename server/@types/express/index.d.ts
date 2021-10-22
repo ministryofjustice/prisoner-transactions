@@ -11,6 +11,7 @@ declare module 'express-session' {
     createBarcodeForm: CreateBarcodeForm
     createBarcodeToken: string
     barcodeUserEmail: string
+    barcodeImageUrl: string
   }
 }
 

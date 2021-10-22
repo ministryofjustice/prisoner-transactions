@@ -11,7 +11,7 @@ export default class MockPrisonerTransactionsService extends PrisonerTransaction
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async createBarcode(context: Context, prisoner: string): Promise<string> {
-    return Promise.resolve('12345678')
+  async createBarcode(context: Context, prisoner: string): Promise<Buffer> {
+    return Promise.resolve(Buffer.of())
   }
 }

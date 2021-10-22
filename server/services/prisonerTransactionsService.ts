@@ -6,10 +6,6 @@ export interface Context {
   username?: string
 }
 
-export interface CreateBarcodeResponse {
-  barcode: string
-}
-
 export interface VerifyLinkResponse {
   token: string
 }
@@ -43,11 +39,10 @@ export default class PrisonerTransactionsService {
     prisonerId: string,
     userId: string,
     createBarcodeToken: string
-  ): Promise<string> {
-    const response = (await PrisonerTransactionsService.restClient(createBarcodeToken).postCreateBarcode({
+  ): Promise<Buffer> {
+    return (await PrisonerTransactionsService.restClient(createBarcodeToken).postCreateBarcode({
       path: `/barcode`,
       data: { userId, prisonerId },
-    })) as CreateBarcodeResponse
-    return response.barcode
+    })) as Buffer
   }
 }

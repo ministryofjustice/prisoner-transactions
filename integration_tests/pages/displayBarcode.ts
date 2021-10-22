@@ -5,8 +5,8 @@ export default class DisplayBarcodePage extends Page {
     super('display-barcode')
   }
 
-  barcodeResultContains = (text: string): DisplayBarcodePage => {
-    cy.get('[data-qa="barcode-result"]').contains(text)
+  barcodeResultExists = (): DisplayBarcodePage => {
+    cy.get('#barcodeImage')
     return this
   }
 }
