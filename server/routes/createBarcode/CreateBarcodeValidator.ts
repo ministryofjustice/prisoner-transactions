@@ -17,9 +17,8 @@ export default async function validate(
     return '/barcode/create-barcode'
   }
 
-  let barcodeImageBuffer: Buffer
   try {
-    barcodeImageBuffer = await submitService(form)
+    const barcodeImageBuffer = await submitService(form)
     req.session.barcodeImageUrl = `data:image/png;base64,${barcodeImageBuffer.toString('base64')}`
   } catch (error) {
     if (error.status === 401) {
