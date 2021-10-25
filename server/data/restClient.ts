@@ -107,7 +107,7 @@ export default class RestClient {
 
   async postCreateBarcode({
     path = null,
-    responseType = '',
+    responseType = 'arraybuffer',
     data = {},
     raw = false,
   }: PostCreateBarcodeRequest = {}): Promise<unknown> {

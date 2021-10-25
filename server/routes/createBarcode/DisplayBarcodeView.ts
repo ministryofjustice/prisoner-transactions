@@ -1,9 +1,9 @@
 export default class DisplayBarcodeView {
-  constructor(private readonly barcode: string) {}
+  constructor(private readonly barcodeImageUrl: string) {}
 
-  get renderArgs(): { barcode: string } {
+  get renderArgs(): { barcodeImageUrl: string } {
     return {
-      barcode: this.barcode,
+      barcodeImageUrl: this.barcodeImageUrl,
     }
   }
 }

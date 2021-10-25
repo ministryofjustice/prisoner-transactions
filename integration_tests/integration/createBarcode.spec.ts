@@ -14,7 +14,7 @@ context('Create Barcode', () => {
   it('Can create a barcode from a magic link signin', () => {
     cy.visit('/link/verify-link?secret=thisisasecret')
     const createBarcodePage = Page.verifyOnPage(CreateBarcodePage)
-    createBarcodePage.prisoner('A1234BC').clickContinueButtonAndSucceed().barcodeResultContains('12345678')
+    createBarcodePage.prisoner('A1234BC').clickContinueButtonAndSucceed().barcodeResultExists()
   })
 
   it('Can create a barcode after redirecting to a magic link signin', () => {
@@ -23,6 +23,6 @@ context('Create Barcode', () => {
     requestLinkPage.email('mike.halma@digital.justice.gov.uk').clickRequestLinkAndSucceed()
     cy.visit('/link/verify-link?secret=thisisasecret')
     const createBarcodePage = Page.verifyOnPage(CreateBarcodePage)
-    createBarcodePage.prisoner('A1234BC').clickContinueButtonAndSucceed().barcodeResultContains('12345678')
+    createBarcodePage.prisoner('A1234BC').clickContinueButtonAndSucceed().barcodeResultExists()
   })
 })

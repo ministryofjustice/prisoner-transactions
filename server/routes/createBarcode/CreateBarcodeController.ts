@@ -32,7 +32,7 @@ export default class CreateBarcodeController {
   }
 
   async displayBarcode(req: Request, res: Response): Promise<void> {
-    const view = new DisplayBarcodeView(req.query.barcode as string)
+    const view = new DisplayBarcodeView(req.session.barcodeImageUrl)
     res.render('pages/displayBarcode', view.renderArgs)
   }
 }

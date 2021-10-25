@@ -4,7 +4,7 @@ import type { CreateBarcodeForm } from 'forms'
 export default async function validate(
   form: CreateBarcodeForm,
   req: Request,
-  submitService: (createBarcodeForm: CreateBarcodeForm) => Promise<string>
+  submitService: (createBarcodeForm: CreateBarcodeForm) => Promise<Buffer>
 ): Promise<string> {
   const errors: Array<Record<string, string>> = []
 
@@ -17,9 +17,9 @@ export default async function validate(
     return '/barcode/create-barcode'
   }
 
-  let barcode
   try {
-    barcode = await submitService(form)
+    const barcodeImageBuffer = await submitService(form)
+    req.session.barcodeImageUrl = `data:image/png;base64,${barcodeImageBuffer.toString('base64')}`
   } catch (error) {
     if (error.status === 401) {
       req.flash('errors', [{ href: '', text: 'Your session has expired - please request a new link' }])
@@ -29,5 +29,5 @@ export default async function validate(
     return '/barcode/create-barcode'
   }
 
-  return `/barcode/display-barcode?barcode=${barcode}`
+  return `/barcode/display-barcode`
 }
