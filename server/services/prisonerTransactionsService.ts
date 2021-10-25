@@ -45,4 +45,11 @@ export default class PrisonerTransactionsService {
       data: { userId, prisonerId },
     })) as Buffer
   }
+
+  async verifyBarcode(context: Context, barcode: string): Promise<void> {
+    const token = await this.hmppsAuthClient.getSystemClientToken()
+    await PrisonerTransactionsService.restClient(token).post({
+      path: `/barcode/${barcode}`,
+    })
+  }
 }

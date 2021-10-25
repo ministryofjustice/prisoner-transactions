@@ -8,6 +8,7 @@ import errorHandler from '../../errorHandler'
 import standardRouter from '../standardRouter'
 import * as auth from '../../authentication/auth'
 import UserService from '../../services/userService'
+import MockPrisonerTransactionsService from './MockPrisonerTransactionsService'
 
 const user = {
   name: 'john smith',
@@ -55,5 +56,5 @@ function appSetup(route: Router, production: boolean): Express {
 
 export default function appWithAllRoutes({ production = false }: { production?: boolean }): Express {
   auth.default.authenticationMiddleware = () => (req, res, next) => next()
-  return appSetup(allRoutes(standardRouter(new MockUserService())), production)
+  return appSetup(allRoutes(standardRouter(new MockUserService()), new MockPrisonerTransactionsService()), production)
 }

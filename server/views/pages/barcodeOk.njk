@@ -1,0 +1,37 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "moj/components/banner/macro.njk" import mojBanner -%}
+
+{% set pageTitle = applicationName + " - Home" %}
+{% set pageId = 'barcode-ok' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Ready for final delivery</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ mojBanner({
+          type: 'success',
+          text: 'This item of mail was sent by an approved sender.',
+          iconFallbackText: 'Success'
+        }) }}
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Scan another barcode",
+          href: "/scan-barcode",
+          attributes: { 'data-qa': 'continue-button' }
+        }) }}
+      </div>
+    </div>
+  </main>
+
+{% endblock %}

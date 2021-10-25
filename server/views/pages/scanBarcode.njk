@@ -1,0 +1,52 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set pageTitle = applicationName + " - Home" %}
+{% set pageId = 'create-barcode' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Please scan a barcode</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form id="scan-barcode-form" action="/scan-barcode" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          {% call govukFieldset({ }) %}
+            {{ govukInput({
+              label: {
+                html: 'Scan a barcode'
+              },
+              id: "barcode",
+              name: "barcode",
+              value: form.barcode,
+              errorMessage: errors | findError('barcode')
+            }) }}
+            <div class="govuk-button-group">
+              {{ govukButton({
+                text: "Continue",
+                attributes: { 'data-qa': 'continue-button' }
+              }) }}
+            </div>
+          {% endcall %}
+        </form>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}

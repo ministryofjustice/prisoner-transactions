@@ -47,7 +47,7 @@ export default function createApp(
 
   app.use('/', setUpAuthentication())
   app.use('/', authorisationMiddleware())
-  app.use('/', indexRoutes(standardRouter(userService)))
+  app.use('/', indexRoutes(standardRouter(userService), prisonerTransactionsService))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

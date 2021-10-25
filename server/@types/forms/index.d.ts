@@ -5,4 +5,7 @@ declare module 'forms' {
   export interface CreateBarcodeForm {
     prisoner?: string
   }
+  export interface ScanBarcodeForm {
+    barcode?: string
+  }
 }

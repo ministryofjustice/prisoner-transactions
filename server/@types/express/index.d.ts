@@ -1,4 +1,4 @@
-import { CreateBarcodeForm, RequestLinkForm } from 'forms'
+import { CreateBarcodeForm, RequestLinkForm, ScanBarcodeForm } from 'forms'
 
 export default {}
 
@@ -12,6 +12,7 @@ declare module 'express-session' {
     createBarcodeToken: string
     barcodeUserEmail: string
     barcodeImageUrl: string
+    scanBarcodeForm: ScanBarcodeForm
   }
 }
 
