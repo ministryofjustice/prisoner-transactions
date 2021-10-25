@@ -60,8 +60,38 @@ const stubCreateBarcode = (): SuperAgentRequest =>
     },
   })
 
+const stubVerifyBarcodeFail = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: `/prisoner-transactions/barcode/123456789012`,
+    },
+    response: {
+      status: 404,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    },
+  })
+
+const stubVerifyBarcodeSucceed = (): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: `/prisoner-transactions/barcode/210987654321`,
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    },
+  })
+
 export default {
   stubRequestLink,
   stubCreateBarcode,
   stubVerifyLink,
+  stubVerifyBarcodeFail,
+  stubVerifyBarcodeSucceed,
 }

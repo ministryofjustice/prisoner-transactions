@@ -1,0 +1,37 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "moj/components/banner/macro.njk" import mojBanner -%}
+
+{% set pageTitle = applicationName + " - Home" %}
+{% set pageId = 'barcode-invalid' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Carry out further checks</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ mojBanner({
+          type: 'warning',
+          text: 'Follow your usual procedure for checking Rule 39 mail.',
+          iconFallbackText: 'Warning'
+        }) }}
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Scan another barcode",
+          href: "/scan-barcode",
+          attributes: { 'data-qa': 'continue-button' }
+        }) }}
+      </div>
+    </div>
+  </main>
+
+{% endblock %}
