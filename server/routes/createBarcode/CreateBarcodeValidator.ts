@@ -29,5 +29,6 @@ export default async function validate(
     return '/barcode/create-barcode'
   }
 
+  req.session.createBarcodeForm = {}
   return `/barcode/display-barcode`
 }

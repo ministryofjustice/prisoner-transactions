@@ -31,5 +31,6 @@ export default async function validate(
     return '/scan-barcode'
   }
 
+  req.session.scanBarcodeForm = {}
   return `/barcode-ok`
 }
