@@ -26,6 +26,7 @@ export default async function validate(
     return '/link/request-link'
   }
 
+  req.session.requestLinkForm = {}
   return '/link/email-sent'
 }
 

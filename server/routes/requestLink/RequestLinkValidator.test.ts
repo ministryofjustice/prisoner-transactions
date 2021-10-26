@@ -5,6 +5,7 @@ import validate from './RequestLinkValidator'
 describe('RequestLinkValidadtor', () => {
   const req = {
     flash: jest.fn() as (type: string, message: Array<Record<string, string>>) => number,
+    session: { requestLinkForm: {} },
   } as Request
 
   const validForm: RequestLinkForm = {
