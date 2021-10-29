@@ -1,12 +1,12 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prisoner-transactions
   labels:
     helm.sh/chart: {{ include "app.chart" . }}
-    {{ - if .Chart.AppVersion }}
+    {{ if .Chart.AppVersion }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    {{ - end }}
+    {{ end }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ include "app.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -27,15 +27,15 @@ spec:
             serviceName: prisoner-transactions
             servicePort: http
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prisoner-transactions-ext
   labels:
     helm.sh/chart: {{ include "app.chart" . }}
-    {{ - if .Chart.AppVersion }}
+    {{ if .Chart.AppVersion }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    {{ - end }}
+    {{ end }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ include "app.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
