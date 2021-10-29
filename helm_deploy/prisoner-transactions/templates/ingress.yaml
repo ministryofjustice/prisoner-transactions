@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: prisoner-transactions
@@ -27,7 +27,7 @@ spec:
             serviceName: prisoner-transactions
             servicePort: http
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: prisoner-transactions-ext

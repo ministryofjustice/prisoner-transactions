@@ -140,12 +140,12 @@ workflows:
         filters:
           tags:
             ignore: /.*/
-      - unit_test:
-          requires:
-            - build
-      - integration_test:
-          requires:
-            - build
+#      - unit_test:
+#          requires:
+#            - build
+#      - integration_test:
+#          requires:
+#            - build
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
