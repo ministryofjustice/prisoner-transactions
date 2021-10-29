@@ -154,6 +154,7 @@ workflows:
             branches:
               only:
                 - main
+                - mh-398-external-url
       - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
@@ -162,6 +163,7 @@ workflows:
             branches:
               only:
                 - main
+                - mh-398-external-url
           requires:
             - helm_lint
             - unit_test
