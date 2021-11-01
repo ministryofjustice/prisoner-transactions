@@ -136,10 +136,10 @@ workflows:
   version: 2
   build-test-and-deploy:
     jobs:
-      - build:
-        filters:
-          tags:
-            ignore: /.*/
+#      - build:
+#        filters:
+#          tags:
+#            ignore: /.*/
 #      - unit_test:
 #          requires:
 #            - build
