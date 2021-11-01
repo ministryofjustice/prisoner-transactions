@@ -61,7 +61,7 @@ spec:
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: prisoner-transactions-ext
+  name: prisoner-transactions-ext-root
   labels:
     helm.sh/chart: {{ include "app.chart" . }}
     {{ if .Chart.AppVersion }}
