@@ -56,7 +56,7 @@ spec:
     - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
       http:
         paths:
-          - path: /[assets|health|ping|barcode|link]
+          - path: /[$|assets|health|ping|barcode|link]
             backend:
               serviceName: prisoner-transactions
               servicePort: http
