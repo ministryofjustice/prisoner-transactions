@@ -42,6 +42,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   tls:
     - hosts:
@@ -51,15 +52,7 @@ spec:
     - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
       http:
         paths:
-          - path: /assets
-            backend:
-              serviceName: prisoner-transactions
-              servicePort: http
-          - path: /barcode
-            backend:
-              serviceName: prisoner-transactions
-              servicePort: http
-          - path: /link
+          - path: /[assets|health|ping|barcode|link]
             backend:
               serviceName: prisoner-transactions
               servicePort: http
