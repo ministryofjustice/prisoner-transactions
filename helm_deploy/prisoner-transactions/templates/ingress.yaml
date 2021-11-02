@@ -58,7 +58,6 @@ spec:
       http:
         paths:
             - path: /
-              pathType: Exact
               backend:
                 serviceName: prisoner-transactions
                 servicePort: http
