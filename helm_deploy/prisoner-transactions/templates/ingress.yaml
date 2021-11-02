@@ -61,3 +61,23 @@ spec:
               backend:
                 serviceName: prisoner-transactions
                 servicePort: http
+            - path: /health
+              backend:
+                serviceName: prisoner-transactions
+                servicePort: http
+            - path: /ping
+              backend:
+                serviceName: prisoner-transactions
+                servicePort: http
+            - path: /assets
+              backend:
+                serviceName: prisoner-transactions
+                servicePort: http
+            - path: /link
+              backend:
+                serviceName: prisoner-transactions
+                servicePort: http
+            - path: /barcode
+              backend:
+                serviceName: prisoner-transactions
+                servicePort: http
