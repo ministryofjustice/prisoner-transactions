@@ -79,13 +79,6 @@ spec:
       secretName: prisoner-transactions-ext-cert
   rules:
     - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
-      http:
-        paths:
-          - path: /
-            pathType: Exact
-            backend:
-              serviceName: prisoner-transactions
-              servicePort: http
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
