@@ -10,9 +10,7 @@ generic-service:
     port: 3000
 
   ingress:
-    enabled: true
-    host: app-hostname.local    # override per environment
-    tlsSecretName: prisoner-transactions-cert
+    enabled: false
 
   livenessProbe:
     httpGet:
