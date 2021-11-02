@@ -44,7 +44,6 @@ metadata:
     nginx.ingress.kubernetes.io/custom-http-errors: "418"
     nginx.org/mergeable-ingress-type: "master"
     nginx.ingress.kubernetes.io/server-snippet: |
-      server_tokens off;
       location = / {
         return 301 $scope://$host/barcode/create-barcode;
       }
