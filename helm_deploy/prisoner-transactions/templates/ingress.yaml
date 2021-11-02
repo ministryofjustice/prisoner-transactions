@@ -43,7 +43,9 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/custom-http-errors: "418"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite / $scheme://$host/barcode/create-barcode;
+      location = / {
+        return 301 $scheme://$host/barcode/create-barcode;
+      }
 spec:
   tls:
     - hosts:
