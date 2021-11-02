@@ -42,7 +42,33 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/custom-http-errors: "418"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
+    nginx.org/mergeable-ingress-type: "master"
+spec:
+  tls:
+    - hosts:
+      - prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+      secretName: prisoner-transactions-ext-cert
+  rules:
+    - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: prisoner-transactions-ext-root
+  labels:
+    helm.sh/chart: {{ include "app.chart" . }}
+    {{ if .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    {{ end }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "app.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    nginx.org/mergeable-ingress-type: "minion"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      server_tokens off;
       location = / {
         return 301 $scope://$host/barcode/create-barcode;
       }
@@ -60,6 +86,32 @@ spec:
             backend:
               serviceName: prisoner-transactions
               servicePort: http
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: prisoner-transactions-ext-paths
+  labels:
+    helm.sh/chart: {{ include "app.chart" . }}
+    {{ if .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    {{ end }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "app.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    nginx.org/mergeable-ingress-type: "minion"
+spec:
+  tls:
+    - hosts:
+      - prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+      secretName: prisoner-transactions-ext-cert
+  rules:
+    - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+      http:
+        paths:
           - path: /assets
             pathType: Prefix
             backend:
@@ -80,7 +132,7 @@ spec:
             backend:
               serviceName: prisoner-transactions
               servicePort: http
-          - path: /link]
+          - path: /link
             pathType: Prefix
             backend:
               serviceName: prisoner-transactions
