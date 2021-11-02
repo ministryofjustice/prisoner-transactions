@@ -70,7 +70,7 @@ metadata:
     nginx.ingress.kubernetes.io/server-snippet: |
       server_tokens off;
       location = / {
-        return 301 $scope://$host/barcode/create-barcode;
+        return 301 $scheme://$host/barcode/create-barcode;
       }
 spec:
   tls:
