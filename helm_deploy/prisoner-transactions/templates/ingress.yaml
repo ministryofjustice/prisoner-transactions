@@ -26,7 +26,6 @@ spec:
           backend:
             serviceName: prisoner-transactions
             servicePort: http
-
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -43,6 +42,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    nginx.org/mergeable-ingress-type: "master"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       server_tokens off;
       location = / {
@@ -61,6 +61,32 @@ spec:
               backend:
                 serviceName: prisoner-transactions
                 servicePort: http
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: prisoner-transactions-ext-root
+  labels:
+    helm.sh/chart: {{ include "app.chart" . }}
+    {{ if .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    {{ end }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "app.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/custom-http-errors: "418"
+    nginx.org/mergeable-ingress-type: "minion"
+spec:
+  tls:
+    - hosts:
+      - prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+      secretName: prisoner-transactions-ext-cert
+  rules:
+    - host: prisoner-transactions-ext-dev.hmpps.service.justice.gov.uk
+      http:
+        paths:
             - path: /health
               backend:
                 serviceName: prisoner-transactions
