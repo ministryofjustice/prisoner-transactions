@@ -1,0 +1,16 @@
+#display-recipient-barcodes {
+  ul {
+    border-bottom: 1px dotted gray;
+
+    li {
+      border-top: 1px dotted gray;
+      display: flex;
+      justify-content: center;
+
+      img {
+        border: 1px dotted gray;
+        margin: 0 auto;
+      }
+    }
+  }
+}

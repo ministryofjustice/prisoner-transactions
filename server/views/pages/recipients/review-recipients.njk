@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set pageTitle = applicationName + " - Review Recipients" %}
+{% set pageId = 'review-recipients' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Review your recipients</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-7" id="review-recipients">
+      <div class="govuk-grid-column-full">
+      	<ul class="govuk-!-margin-top-0 govuk-!-margin-bottom-5 govuk-!-padding-0 govuk-list">
+      	  {% for recipient in recipients %}
+      		<li class="govuk-!-padding-top-2 govuk-!-padding-bottom-2"><span>{{recipient.prisonerName}}</span><span>, </span><span>{{recipient.prisonNumber}}</span><span>, </span><span>{{recipient.prisonName}}</span></li>
+      	  {% endfor %}
+      	</ul>
+
+      	<a href="find-recipients" class="govuk-link">Add another recipient</a>
+
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+		<div class="govuk-button-group">
+		  {{ govukButton({
+			text: "My list is complete",
+			href: "display-barcode"
+		  }) }}
+		</div>
+	  </div>
+	</div>
+
+  </main>
+
+{% endblock %}

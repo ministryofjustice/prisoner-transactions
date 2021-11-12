@@ -1,0 +1,124 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set pageTitle = applicationName + " - Add Recipient" %}
+{% set pageId = 'add-recipient' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          Add details for&nbsp;
+          {% if form.findByPrisonNumber == true %}
+            "{{ form.prisonNumber }}"
+          {% else %}
+            "{{ form.prisonerName }}"
+          {% endif %}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+        <form id="add-recipient-form" action="add-recipient" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          <input type="hidden" name="findByPrisonNumber" value="{{ form.findByPrisonNumber }}" />
+
+          {% call govukFieldset({ }) %}
+
+			{% if form.findByPrisonNumber == true %}
+
+				<input type="hidden" name="prisonNumber" value="{{ form.prisonNumber }}" />
+
+				{{ govukInput({
+				  label: {
+					text: "Recipient's full name",
+					classes: "govuk-label--s",
+					isPageHeading: false
+				  },
+				  hint: {
+					text: "Use the recipient's first name and last name. You don't need to use their middle names."
+				  },
+				  id: "prisonerName",
+				  name: "prisonerName",
+				  value: form.prisonerName,
+				  errorMessage: errors | findError('prisonerName')
+				}) }}
+
+			{% else %}
+
+				<input type="hidden" name="prisonerName" value="{{ form.prisonerName }}" />
+
+				{% set prisonNumberField %}
+					{{ govukInput({
+					  hint: {
+						text: "Prison numbers start with 'A' followed by 4 numbers and 2 letters, for example A1234BC."
+					  },
+					  id: "prisonNumber",
+					  name: "prisonNumber",
+					  value: form.prisonNumber,
+					  errorMessage: errors | findError('prisonNumber')
+					}) }}
+				{% endset -%}
+
+				{{ govukRadios({
+				  name: "prisonNumberKnown",
+				  fieldset: {
+					legend: {text: "Do you know their prison number?", isPageHeading: false, classes: "govuk-fieldset__legend--s"}
+				  },
+				  items: [
+				  	{value: 'yes', text: 'Yes - enter the prison number', conditional: {html: prisonNumberField}, checked: true },
+				  	{value: 'no', text: 'No - enter the recipient\'s date of birth'}
+				  ]
+				}) }}
+
+			{% endif %}
+
+			{{ govukInput({
+			  label: {
+				text: "Enter the name of the prison where the recipient is located",
+				classes: "govuk-label--s",
+				isPageHeading: false
+			  },
+			  id: "prisonName",
+			  name: "prisonName",
+			  value: form.prisonName,
+			  errorMessage: errors | findError('prisonName')
+			}) }}
+
+			<p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+				If you don't know the recipient's location
+			</p>
+			<a href="" class="govuk-link">Use the Find a prisoner service to locate them (opens in a new tab)</a>
+
+            <div class="govuk-button-group govuk-!-margin-top-7">
+              {{ govukButton({
+                text: "Submit"
+              }) }}
+            </div>
+
+
+          {% endcall %}
+        </form>
+	  </div>
+	</div>
+
+
+  </main>
+
+{% endblock %}

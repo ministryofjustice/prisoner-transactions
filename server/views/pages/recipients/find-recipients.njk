@@ -1,0 +1,151 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set pageTitle = applicationName + " - Find Recipients" %}
+{% set pageId = 'find-recipients' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    {% if errors.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: 'There is a problem',
+        errorList: errors,
+        attributes: { 'data-qa-errors': true }
+      }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+        	{% if hasRecipients != true %}
+        		Create a list of recipients
+        	{% else %}
+        		Add another recipient
+        	{% endif %}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <p>
+        	When you want to send legal mail with a barcode and address, for each recipient you'll need to either:
+        	<ul>
+        		<li>select the recipient - their details have already been added by you or someone else in your organisation</li>
+        		<li>add details of a new recipient - you're sending them legal mail for the first time
+        	</ul>
+        </p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+        <form id="find-recipients-form" action="find-recipients" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% call govukFieldset({ }) %}
+			<div class="moj-search">
+				{{ govukInput({
+				  label: {
+					text: "Enter the recipient's name or prison number",
+					classes: "govuk-label--s moj-search__label",
+					isPageHeading: false
+				  },
+				  hint: {
+					html: "Use their first name and last name.<br/>Prison numbers start with 'A' followed by 4 numbers and 2 letters, for example A1234BC."
+				  },
+				  id: "prisoner",
+				  name: "prisoner",
+				  value: form.prisoner,
+				  errorMessage: errors | findError('prisoner')
+				}) }}
+
+                {{ govukButton({
+                  text: "Find",
+                  preventDoubleClick: true,
+                  classes: 'moj-search__button'
+                }) }}
+              </div>
+          {% endcall %}
+        </form>
+	  </div>
+	</div>
+
+	{% if form.results %}
+	  <div class="govuk-grid-row govuk-!-margin-top-7">
+		<div class="govuk-grid-column-full">
+
+		  {% if form.results.length > 0 %}
+          <form id="select-recipient-form" action="select-recipient" method="post">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+			{% set items = [] %}
+			{% for result in form.results %}
+				{% if form.findByPrisonNumber != true %}
+					{% set items = (items.push({value: result.prisonNumber, html: '<span class="govuk-!-font-weight-bold">' + result.prisonerName + '&nbsp;</span><span>' + result.prisonNumber + '</span>'}), items) %}
+				{% else %}
+					{% set items = (items.push({value: result.prisonNumber, html: '<span class="govuk-!-font-weight-bold">' + result.prisonNumber + '&nbsp;</span><span>' + result.prisonerName + '</span>'}), items) %}
+				{% endif %}
+			{% endfor %}
+			{% if form.findByPrisonNumber != true %}
+				{% set items = (items.push({value: '--add--', text: 'I want to add details for a different "' + form.prisoner + '"'}), items) %}
+			{% endif %}
+
+			{% if form.findByPrisonNumber != true %}
+				{% set fieldsetLegend = {text: "Select 1 option", isPageHeading: false, classes: "govuk-fieldset__legend--s"} %}
+			{% else %}
+				{% set fieldsetLegend = undefined %}
+			{% endif %}
+
+			{{ govukRadios({
+			  idPrefix: "prisonNumber",
+			  name: "prisonNumber",
+			  fieldset: {
+                legend: fieldsetLegend
+              },
+			  items: items,
+			  errorMessage: errors | findError('prisonNumber')
+			}) }}
+
+            <div class="govuk-button-group">
+              {{ govukButton({
+                text: "Continue"
+              }) }}
+            </div>
+
+		  </form>
+		  {% endif %}
+
+		  {% if form.results.length == 0 %}
+		  	{% if form.findByPrisonNumber != true %}
+			  <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+				We can't find details for "{{ form.prisoner }}"
+			  </p>
+			  <p>
+				<a href="add-recipient" class="govuk-link">Add their details</a>
+			  </p>
+		    {% else %}
+			  <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+				There is no "{{ form.prisoner }}" saved on the system
+			  </p>
+			  <p class="govuk-!-margin-bottom-1">
+			  	If you're sure the number is correct, add the recipient's details.
+			  </p>
+			  <p>
+				<a href="add-recipient" class="govuk-link">Add their details</a>
+			  </p>
+		    {% endif %}
+		  {% endif %}
+
+        </div>
+      </div>
+
+	{% endif %}
+  </main>
+
+{% endblock %}
