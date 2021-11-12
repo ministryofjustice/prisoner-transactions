@@ -5,7 +5,6 @@ import AddRecipientView from './AddRecipientView'
 export default class AddRecipientController {
   async getAddRecipientView(req: Request, res: Response): Promise<void> {
     if (!req.session.findRecipientsForm) {
-      console.warn('Attempt to add a recipient without having previously searched for a recipient')
       res.redirect('find-recipients')
       return null
     }
