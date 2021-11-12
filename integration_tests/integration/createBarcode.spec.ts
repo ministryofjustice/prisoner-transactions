@@ -19,7 +19,7 @@ context('Create Barcode', () => {
   })
 
   // TODO don't skip this test when we stop pointing the login at the prototype
-  it.only('Can create a barcode after redirecting to a magic link signin', () => {
+  it.skip('Can create a barcode after redirecting to a magic link signin', () => {
     cy.visit('/barcode/create-barcode')
     const requestLinkPage = Page.verifyOnPage(RequestLinkPage)
     requestLinkPage.email('mike.halma@digital.justice.gov.uk').clickRequestLinkAndSucceed()
