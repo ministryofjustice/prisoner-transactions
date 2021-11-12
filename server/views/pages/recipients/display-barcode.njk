@@ -1,0 +1,44 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set pageTitle = applicationName + " - Display Recipient Barcodes" %}
+{% set pageId = 'display-recipient-barcodes' %}
+
+{% block content %}
+
+  <main class="app-container govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Copy and download the address and barcode to use in your own software</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-7">
+      <div class="govuk-grid-column-full">
+      	<ol class="govuk-list govuk-list--number">
+      		<li>Copy the address and barcode to your clipboard or download it as an image</li>
+      		<li>Paste or insert the image into your letter or onto your envelope in the appropriate position</li>
+      	</ol>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row" id="display-recipient-barcodes">
+      <div class="govuk-grid-column-full">
+		<ul class="govuk-list">
+			<li class="govuk-!-padding-top-6 govuk-!-padding-bottom-9">
+				<img src="/assets/images/prototype/example-barcode-1.jpg" />
+			</li>
+			<li class="govuk-!-padding-top-6 govuk-!-padding-bottom-9">
+				<img src="/assets/images/prototype/example-barcode-2.jpg" />
+			</li>
+		</ul>
+      </div>
+    </div>
+
+
+  </main>
+
+{% endblock %}

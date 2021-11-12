@@ -20,6 +20,10 @@ import setUpRequestLink from './middleware/setUpRequestLink'
 import PrisonerTransactionsService from './services/prisonerTransactionsService'
 import setUpCreateBarcode from './middleware/setUpCreateBarcode'
 import barcodeAuthorisationMiddleware from './middleware/barcodeAuthorisationMiddleware'
+import setupFindRecipients from './middleware/setupFindRecipients'
+import setupReviewRecipients from './middleware/setupReviewRecipients'
+import setupAddRecipient from './middleware/setupAddRecipient'
+import setupDisplayBarcode from './middleware/setupDisplayBarcode'
 
 export default function createApp(
   userService: UserService,
@@ -44,6 +48,11 @@ export default function createApp(
   app.use('/barcode', cookieParser())
   app.use('/barcode', barcodeAuthorisationMiddleware())
   app.use('/barcode', setUpCreateBarcode(prisonerTransactionsService))
+
+  app.use('/link/prototype', setupFindRecipients())
+  app.use('/link/prototype', setupAddRecipient())
+  app.use('/link/prototype', setupReviewRecipients())
+  app.use('/link/prototype', setupDisplayBarcode())
 
   app.use('/', setUpAuthentication())
   app.use('/', authorisationMiddleware())

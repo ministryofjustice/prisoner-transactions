@@ -31,7 +31,7 @@ export default class RequestLinkController {
     const email = req.session.barcodeUserEmail
     try {
       const token = await this.prisonerTransactionsService.verifyLink(secret, req.sessionID, email)
-      res.cookie('create_barcode_token', token).redirect('/barcode/create-barcode')
+      res.cookie('create_barcode_token', token).redirect('/link/prototype/find-recipients')
     } catch (error) {
       req.flash('errors', [{ href: '', text: 'An error occurred verifying your email - please try again' }])
       res.redirect('/link/request-link')
