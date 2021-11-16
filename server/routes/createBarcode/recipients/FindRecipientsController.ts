@@ -38,10 +38,10 @@ export default class FindRecipientsController {
           prisonNumber: 'A1234BC',
         })
       }
-    } else if (form.prisoner.trim().toLowerCase() === 'john smith') {
+    } else if (this.isJohnSmith(form.prisoner)) {
       Array.of(0, 1).forEach(i => {
         results.push({
-          prisonerName: form.prisoner,
+          prisonerName: 'John Smith',
           prisonNumber: `A${1234 + i}BC`,
         })
       })
@@ -84,5 +84,13 @@ export default class FindRecipientsController {
     }
 
     return null
+  }
+
+  private isJohnSmith = (prisonerName: string) => {
+    return (
+      prisonerName.trim().toLowerCase() === 'john smith' ||
+      prisonerName.trim().toLowerCase() === 'john' ||
+      prisonerName.trim().toLowerCase() === 'smith'
+    )
   }
 }
