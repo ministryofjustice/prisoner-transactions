@@ -1,5 +1,17 @@
 #review-recipients {
   li {
     border-bottom: 1px dotted gray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .recipient {
+      width: 80%;
+    }
+
+    .govuk-link {
+      width: 10%;
+      text-align: right;
+    }
   }
 }
